@@ -1,0 +1,175 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .welcome {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .balance {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .service-card {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .service-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .service-title {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-logout {
+            background-color: #e74c3c;
+        }
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .flash-message.success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .flash-message.error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .flash-message.info {
+            background-color: #d9edf7;
+            color: #31708f;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PyATM Dashboard</h1>
+        </div>
+        
+        <div class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="welcome">Welcome, {{ user.name }}!</div>
+            <div class="balance">Current Balance: ${{ "%.2f"|format(user.balance) }}</div>
+            
+            <div class="services">
+                <div class="service-card">
+                    <div class="service-icon">💰</div>
+                    <h3 class="service-title">Check Balance</h3>
+                    <a href="{{ url_for('check_balance') }}" class="btn">View</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">⬇️</div>
+                    <h3 class="service-title">Withdraw</h3>
+                    <a href="{{ url_for('withdraw') }}" class="btn">Withdraw</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">⬆️</div>
+                    <h3 class="service-title">Deposit</h3>
+                    <a href="{{ url_for('deposit') }}" class="btn">Deposit</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">↔️</div>
+                    <h3 class="service-title">Transfer</h3>
+                    <a href="{{ url_for('transfer') }}" class="btn">Transfer</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📝</div>
+                    <h3 class="service-title">Transactions</h3>
+                    <a href="{{ url_for('transactions') }}" class="btn">View</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🚪</div>
+                    <h3 class="service-title">Logout</h3>
+                    <a href="{{ url_for('logout') }}" class="btn btn-logout">Exit</a>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>© 2025 PyATM Simulation. All rights reserved.</p>
+                <p>This is a simulation for educational purposes only.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

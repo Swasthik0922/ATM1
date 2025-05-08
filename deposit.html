@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Money</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #7f8c8d;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .amount-btn {
+            background-color: #ecf0f1;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .amount-btn:hover {
+            background-color: #dfe6e9;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+        }
+        .btn:hover {
+            background-color: #219653;
+        }
+        .btn-back {
+            background-color: #95a5a6;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-back:hover {
+            background-color: #7f8c8d;
+        }
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .flash-message.success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .flash-message.error {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deposit Money</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="{{ url_for('deposit') }}">
+            <div class="form-group">
+                <label for="amount">Enter Amount:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required>
+            </div>
+            
+            <div class="quick-amounts">
+                <button type="button" class="amount-btn" onclick="document.getElementById('amount').value='20'">$20</button>
+                <button type="button" class="amount-btn" onclick="document.getElementById('amount').value='50'">$50</button>
+                <button type="button" class="amount-btn" onclick="document.getElementById('amount').value='100'">$100</button>
+                <button type="button" class="amount-btn" onclick="document.getElementById('amount').value='200'">$200</button>
+                <button type="button" class="amount-btn" onclick="document.getElementById('amount').value='500'">$500</button>
+                <button type="button" class="amount-btn" onclick="document.getElementById('amount').value='1000'">$1000</button>
+            </div>
+            
+            <button type="submit" class="btn">Deposit</button>
+        </form>
+        
+        <a href="{{ url_for('dashboard') }}" class="btn btn-back">Back to Dashboard</a>
+    </div>
+</body>
+</html>
